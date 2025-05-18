@@ -1,6 +1,10 @@
-# vue-weather-app
+# vue-simple-weather-app
 
 This is a simple weather app. The app, by default shows 3 cities in 3 different tabs. Clicking on each tab shows the weather forecast for those locations. To get the forecast, I used https://openweathermap.org/api. Since I used the free tier, I only have access to the 2.5/forecast endpoint. You need an API key from openweathermap.org to run this.
+
+# Sample
+
+![alt text](image.png)
 
 ## 🔧 Environment Setup
 
