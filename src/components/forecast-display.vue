@@ -3,6 +3,7 @@ import { defineProps } from 'vue'
 import HourlyForecast from '@/components/hourly-forecast.vue'
 import DailyForecast from '@/components/daily-forecast.vue'
 import type { Forecast } from '@/types/common'
+import { formatDateTime } from '@/utils/time-formatter'
 
 defineProps<{
   forecast: Forecast
@@ -14,6 +15,18 @@ defineProps<{
     <HourlyForecast :hourlyForecast="forecast.hourly" />
     <DailyForecast :dailyForecast="forecast.daily" />
   </div>
+  <footer class="footer">
+    Last updated on
+    {{
+      formatDateTime(new Date(), {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+    }}
+  </footer>
 </template>
 
 <style scoped>
@@ -24,5 +37,11 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+.footer {
+  background-color: dodgerblue;
+  text-align: right;
+  color: white;
+  padding-right: 0.25rem;
 }
 </style>

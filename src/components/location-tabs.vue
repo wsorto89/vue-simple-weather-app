@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import type { City } from '@/types/common'
 
 defineProps<{
-  followedCities: {
-    name: string
-    countryCode: string
-  }[]
-  selectedCity: {
-    name: string
-    countryCode: string
-  }
+  followedCities: City[]
+  selectedCity: City
 }>()
 
 const emit = defineEmits<{
-  (e: 'updateSelectedCity', city: { name: string; countryCode: string }): void
+  (e: 'updateSelectedCity', city: City): void
 }>()
 </script>
 

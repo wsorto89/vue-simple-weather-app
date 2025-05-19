@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import { imperialLocales } from '@/consts/shared'
 import type { DailySummary } from '@/types/daily'
+import { formatDateTime } from '@/utils/time-formatter'
 
 defineProps<{
   dailyForecast: DailySummary[]
 }>()
+
+const unitSymbol = imperialLocales.includes(navigator.language) ? '°F' : '°C'
 </script>
 
 <template>
@@ -12,6 +16,7 @@ defineProps<{
     <div class="title">
       <h3 class="title-text">Next 5 Days</h3>
     </div>
+    <p v-if="dailyForecast.length === 0">No data available</p>
     <ul class="list">
       <li v-for="day in dailyForecast" :key="day.date" class="day">
         <img
@@ -22,7 +27,7 @@ defineProps<{
         <div class="daySummary">
           <p class="bold-text">
             {{
-              new Date(day.date).toLocaleDateString(undefined, {
+              formatDateTime(day.date, {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',
@@ -33,8 +38,8 @@ defineProps<{
           <p class="desc">{{ day.description }}</p>
         </div>
         <div class="temp">
-          <p class="bold-text">{{ day.maxTemp }}°C</p>
-          <p class="bold-text">{{ day.minTemp }}°C</p>
+          <p class="bold-text">{{ day.maxTemp.toFixed(0) }}{{ unitSymbol }}</p>
+          <p class="bold-text">{{ day.minTemp.toFixed(0) }}{{ unitSymbol }}</p>
         </div>
       </li>
     </ul>
