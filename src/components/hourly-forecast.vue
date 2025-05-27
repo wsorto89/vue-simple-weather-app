@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import type { ThreeHourlyForecastListItemResponse } from '@/types/hourly'
 import { defineProps } from 'vue'
+import { imperialLocales } from '@/consts/shared'
+import type { ThreeHourlyForecastListItemResponse } from '@/types/hourly'
+import { formatDateTime } from '@/utils/time-formatter'
 
 defineProps<{ hourlyForecast: ThreeHourlyForecastListItemResponse[] }>()
+
+const unitSymbol = imperialLocales.includes(navigator.language) ? '°F' : '°C'
 </script>
 
 <template>
@@ -13,7 +17,7 @@ defineProps<{ hourlyForecast: ThreeHourlyForecastListItemResponse[] }>()
     <p v-if="hourlyForecast.length === 0">No data available</p>
     <ul class="carousel">
       <li v-for="hour in hourlyForecast" :key="hour.dt" class="hour">
-        <p class="temp">{{ hour.main.temp }}</p>
+        <p class="temp">{{ hour.main.temp.toFixed(0) }}{{ unitSymbol }}</p>
         <p class="pop">{{ hour.pop }}%</p>
         <img
           :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
@@ -22,7 +26,7 @@ defineProps<{ hourlyForecast: ThreeHourlyForecastListItemResponse[] }>()
         />
         <p class="time">
           {{
-            new Date(hour.dt * 1000).toLocaleString(undefined, {
+            formatDateTime(hour.dt, {
               hour: 'numeric',
               minute: 'numeric',
             })
